@@ -1,0 +1,68 @@
+{
+  "name": "git-branch-time-tracker",
+  "displayName": "Git Branch Time Tracker",
+  "description": "Track time spent on each git branch with automatic branch detection",
+  "version": "1.0.0",
+  "publisher": "local-dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/local-dev/git-branch-time-tracker"
+  },
+  "author": "Local Developer",
+  "license": "MIT",
+  "keywords": [
+    "git",
+    "time-tracking",
+    "productivity",
+    "branch",
+    "development"
+  ],
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "gitBranchTracker.showDashboard",
+        "title": "Show Time Tracking Dashboard",
+        "category": "Git Branch Tracker"
+      },
+      {
+        "command": "gitBranchTracker.resetData",
+        "title": "Reset All Tracking Data",
+        "category": "Git Branch Tracker"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "gitBranchTracker.showDashboard"
+        },
+        {
+          "command": "gitBranchTracker.resetData"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.60.0",
+    "@types/node": "16.x",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "path": "^0.12.7"
+  }
+}
