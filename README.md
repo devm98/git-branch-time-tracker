@@ -1,197 +1,109 @@
 # Git Branch Time Tracker
 
-Extension VSCode giúp theo dõi thời gian làm việc trên từng git branch một cách tự động.
+Một VSCode extension giúp tracking thời gian làm việc theo từng Git branch cho mỗi project/repository.
 
-## ✨ Features
+## Tính năng
 
-- **🔄 Auto Branch Detection**: Tự động phát hiện khi switch branch và start/stop timer
-- **📁 File Tracking**: Theo dõi các files được modify trong mỗi session
-- **📊 Dashboard**: Xem báo cáo chi tiết thời gian làm việc
-- **⏱️ Real-time Status**: Hiển thị branch hiện tại và thời gian đã làm trên status bar
-- **💾 Local Storage**: Dữ liệu được lưu local, không gửi lên server nào
+### 🕒 Tự động Tracking Thời gian
 
-## 🚀 Cách sử dụng
+- Chỉ tính thời gian khi có hành động chỉnh sửa file (edit)
+- Tự động bắt đầu tracking khi có thay đổi trên file
+- Tự động dừng tracking khi rời khỏi VS Code hoặc không có hoạt động trong 30 giây
+- Tracking theo từng Git branch riêng biệt
 
-### Tự động tracking
+### 📊 Dashboard Trực quan
 
-Extension sẽ tự động:
+- Hiển thị danh sách tất cả projects/repositories
+- Hiển thị spent time theo từng branch
+- Hiển thị theo ngày với thời gian chi tiết
+- Nhóm branches theo project/repository
+- Tự động refresh mỗi 30 giây
 
-- Bắt đầu track khi bạn mở VSCode trong git repository
-- Detect khi bạn switch sang branch khác
-- Stop timer của branch cũ và start timer cho branch mới
-- Track các files bạn đang edit
+### 🔧 Tích hợp Git
 
-### Xem báo cáo
+- Tự động detect Git repository hiện tại
+- Tự động detect branch hiện tại
+- Hỗ trợ multiple repositories trong workspace
 
-1. **Status Bar**: Click vào status bar để mở dashboard
-2. **Command Palette**: `Ctrl+Shift+P` → "Show Time Tracking Dashboard"
+### 💾 Lưu trữ Local
 
-### Dashboard hiển thị:
+- Tất cả dữ liệu được lưu trữ local
+- Không cần server hay kết nối internet
+- Dữ liệu được persist giữa các session
 
-- Tổng thời gian làm việc trên mỗi branch
-- Chi tiết theo từng ngày
-- Thời gian cụ thể (VD: 9:30 - 11:45)
-- Danh sách files đã modify trong session
+## Cài đặt
 
-## 📱 Screenshots
+1. Download file extension (.vsix)
+2. Mở VS Code
+3. Chạy command: `Extensions: Install from VSIX...`
+4. Chọn file .vsix đã download
+5. Reload VS Code
 
-### Status Bar
+## Sử dụng
 
-```
-🌿 feature/user-auth | ⏰ 2h 30m
-```
+### Xem Dashboard
 
-### Dashboard
+1. Mở Command Palette (`Ctrl+Shift+P` hoặc `Cmd+Shift+P`)
+2. Chạy command: `Git Branch Time Tracker: Show Time Tracker Dashboard`
+3. Hoặc click vào icon 🕒 trong Activity Bar
 
-```
-Branch: feature/user-auth - 8.5 giờ
-├── 03/06/2024 - 4.2 giờ
-│   ├── 09:30 - 12:00 (2h 30m)
-│   │   Files: auth.js, login.vue, middleware.ts
-│   └── 14:00 - 15:45 (1h 45m)
-│       Files: auth.test.js, utils.js
-└── 02/06/2024 - 4.3 giờ
-    └── 10:15 - 17:30 (4h 15m)
-        Files: database.js, schema.sql
-```
+### Reset Data
 
-## ⚙️ Commands
+1. Mở Command Palette
+2. Chạy command: `Git Branch Time Tracker: Reset All Time Data`
+3. Confirm để xóa tất cả dữ liệu tracking
 
-| Command                        | Description                  |
-| ------------------------------ | ---------------------------- |
-| `Show Time Tracking Dashboard` | Mở dashboard xem báo cáo     |
-| `Reset All Tracking Data`      | Xóa toàn bộ dữ liệu tracking |
+### Tracking Tự động
 
-## 🔧 Technical Details
+- Extension sẽ tự động bắt đầu tracking khi bạn:
+  - Chỉnh sửa file
+  - Mở file mới
+  - Thay đổi nội dung file
+- Tracking sẽ dừng khi:
+  - Không có hoạt động trong 30 giây
+  - Rời khỏi VS Code
+  - Chuyển sang branch khác
 
-### Data Structure
+## Giao diện Dashboard
+
+Dashboard hiển thị:
+
+- **📁 Repository Name**: Tên của Git repository
+- **🌿 Branch Name**: Tên branch với tổng thời gian làm việc
+- **📅 Date**: Thời gian làm việc theo từng ngày
+- **Time Format**: Hiển thị dưới dạng `Xh Ym Zs`
+
+## Yêu cầu
+
+- VS Code phiên bản 1.60.0 trở lên
+- Git đã được cài đặt và có thể access từ command line
+- Workspace phải là Git repository
+
+## Cấu trúc dữ liệu
+
+Dữ liệu được lưu trong file JSON với cấu trúc:
 
 ```json
 {
-  "feature/user-auth": {
-    "totalTime": 14400,
-    "sessions": [
-      {
-        "start": "2024-06-03T09:30:00Z",
-        "end": "2024-06-03T12:00:00Z",
-        "files": ["auth.js", "login.vue"]
-      }
-    ]
-  }
+  "date": "2025-06-06",
+  "repository": "my-project",
+  "branch": "feature/new-feature",
+  "duration": 1800,
+  "startTime": 1717689600000,
+  "endTime": 1717691400000
 }
 ```
 
-### Storage Location
+## Hạn chế
 
-- **Windows**: `%APPDATA%\Code\User\globalStorage\local-dev.git-branch-time-tracker\`
-- **macOS**: `~/Library/Application Support/Code/User/globalStorage/local-dev.git-branch-time-tracker/`
-- **Linux**: `~/.config/Code/User/globalStorage/local-dev.git-branch-time-tracker/`
+- Chỉ tracking được trong Git repositories
+- Cần Git command line tools
+- Hiện tại chỉ support workspace đầu tiên nếu có multiple folders
 
-## 📋 Requirements
+## Đóng góp
 
-- VSCode 1.60.0+
-- Git repository trong workspace
-- Git extension được enable
+Extension này được tạo để giúp developers theo dõi thời gian làm việc hiệu quả hơn. Mọi feedback và suggestions đều được welcome!
 
-## 🛠️ Installation
+## License
 
-### Method 1: Local Installation
-
-```bash
-# Clone hoặc download source code
-git clone <repository-url>
-cd git-branch-tracker
-
-# Install dependencies
-npm install
-
-# Compile
-npm run compile
-
-# Package
-npx vsce package
-
-# Install
-code --install-extension git-branch-time-tracker-1.0.0.vsix
-```
-
-### Method 2: Development Mode
-
-```bash
-# Trong folder extension
-npm run compile
-
-# Mở VSCode
-code .
-
-# Press F5 để test
-```
-
-## 🔄 Development
-
-### Setup
-
-```bash
-npm install
-npm run compile
-```
-
-### Scripts
-
-- `npm run compile`: Build TypeScript
-- `npm run watch`: Auto-compile khi có thay đổi
-- `npx vsce package`: Tạo .vsix file
-
-### Project Structure
-
-```
-git-branch-tracker/
-├── src/
-│   └── extension.ts      # Main extension code
-├── out/                  # Compiled JavaScript
-├── package.json          # Extension manifest
-├── tsconfig.json         # TypeScript config
-└── README.md            # Documentation
-```
-
-## 🐛 Known Issues
-
-- Extension chỉ hoạt động với Git repositories
-- Cần Git extension được enable
-- Timer có thể không chính xác 100% nếu VSCode bị crash
-
-## 🔮 Roadmap
-
-- [ ] Export báo cáo ra CSV/JSON
-- [ ] Integration với Git commits
-- [ ] Estimate vs actual time comparison
-- [ ] Multi-workspace support
-- [ ] Dark/Light theme cho dashboard
-
-## 📝 Changelog
-
-### 1.0.0
-
-- ✨ Auto branch detection
-- ✨ File tracking
-- ✨ Dashboard với báo cáo chi tiết
-- ✨ Status bar integration
-
-## 🤝 Contributing
-
-1. Fork repository
-2. Tạo feature branch
-3. Commit changes
-4. Push và tạo Pull Request
-
-## 📄 License
-
-MIT License - tự do sử dụng và modify.
-
-## 🙋‍♂️ Support
-
-Nếu gặp issue hoặc có feature request, tạo issue trong repository hoặc liên hệ trực tiếp.
-
----
-
-**Happy Coding! 🚀**
+MIT License

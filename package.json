@@ -1,22 +1,8 @@
 {
   "name": "git-branch-time-tracker",
   "displayName": "Git Branch Time Tracker",
-  "description": "Track time spent on each git branch with automatic branch detection",
+  "description": "Track working time on each Git branch per project/repository",
   "version": "1.0.0",
-  "publisher": "local-dev",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/local-dev/git-branch-time-tracker"
-  },
-  "author": "Local Developer",
-  "license": "MIT",
-  "keywords": [
-    "git",
-    "time-tracking",
-    "productivity",
-    "branch",
-    "development"
-  ],
   "engines": {
     "vscode": "^1.60.0"
   },
@@ -24,29 +10,49 @@
     "Other"
   ],
   "activationEvents": [
-    "onStartupFinished"
+    "*"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "gitBranchTracker.showDashboard",
-        "title": "Show Time Tracking Dashboard",
-        "category": "Git Branch Tracker"
+        "command": "gitBranchTimeTracker.showDashboard",
+        "title": "Show Time Tracker Dashboard",
+        "category": "Git Branch Time Tracker"
       },
       {
-        "command": "gitBranchTracker.resetData",
-        "title": "Reset All Tracking Data",
-        "category": "Git Branch Tracker"
+        "command": "gitBranchTimeTracker.resetData",
+        "title": "Reset All Time Data",
+        "category": "Git Branch Time Tracker"
       }
     ],
     "menus": {
       "commandPalette": [
         {
-          "command": "gitBranchTracker.showDashboard"
+          "command": "gitBranchTimeTracker.showDashboard",
+          "when": "true"
         },
         {
-          "command": "gitBranchTracker.resetData"
+          "command": "gitBranchTimeTracker.resetData",
+          "when": "true"
+        }
+      ]
+    },
+    "views": {
+      "gitBranchTimeTracker": [
+        {
+          "type": "webview",
+          "id": "gitBranchTimeTracker",
+          "name": "Time Tracker"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "gitBranchTimeTracker",
+          "title": "Git Branch Time Tracker",
+          "icon": "$(clock)"
         }
       ]
     }
@@ -60,9 +66,5 @@
     "@types/vscode": "^1.60.0",
     "@types/node": "16.x",
     "typescript": "^4.9.4"
-  },
-  "dependencies": {
-    "fs": "0.0.1-security",
-    "path": "^0.12.7"
   }
 }
